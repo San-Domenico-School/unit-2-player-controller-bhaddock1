@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         
-        speed = 3000.0f;                      // Constant speed of vehicle
+        speed = 3000.0f;                    // Constant speed of vehicle
         turnSpeed = 30.0f;                  // turn speed of vehicle
         rb = GetComponent<Rigidbody>();     // short cut to rigidbody
    
@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
         rb.AddRelativeForce(Vector3.forward * speed * verticalInput);
         transform.Rotate(Vector3.up * turnSpeed * horizantalInput * Time.deltaTime);
 
+        Scorekeeper.Instance.AddToScore(verticalInput);
     }
     // Updates movements of vehicle on keypress WASD
     private void OnMove(InputValue input)
@@ -43,7 +44,13 @@ public class PlayerController : MonoBehaviour
         verticalInput = input.Get<Vector2>().y;
         horizantalInput = input.Get<Vector2>().x;
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Scorekeeper.Instance.SubtractFromScore();
+        }
+    }
 
 }
 

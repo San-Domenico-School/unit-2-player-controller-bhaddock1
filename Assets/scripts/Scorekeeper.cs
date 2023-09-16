@@ -39,20 +39,25 @@ public class Scorekeeper : MonoBehaviour
     {
         float pointsToAdd = Mathf.Clamp01(inputFromPlayer) * 0.35f;
         score += pointsToAdd;
+
+        DisplayScore();
     }
 
     //Subtracts penalty from the score to no less than zero when the player runs into an obstacle.
     //before calling the DisplayScore method
     public void SubtractFromScore()
     {
-        score = Mathf.Max(0, score - penalty);
-        DisplayScore();
+        score -= penalty;
+        if (score < 0)
+        {
+            score = 0;
+        }
     }
 
     //Displays score to UI rounded to nearest integer
     public void DisplayScore()
     {
-        int roundedScore = Mathf.RoundToInt(score * 100);  // Assuming you want to display a score out of 100.
-        scoreboardText.text = "Score: " + roundedScore.ToString();
+        int roundedScore = Mathf.RoundToInt(score); 
+        scoreboardText.text = "score:" + roundedScore.ToString();
     }
 }
