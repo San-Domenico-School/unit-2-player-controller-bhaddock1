@@ -33,22 +33,24 @@ public class PlayerController : MonoBehaviour
     // Updates vehicle postion per frame on Update
     void FixedUpdate()
     {
-        rb.AddRelativeForce(Vector3.forward * speed * verticalInput);
-        transform.Rotate(Vector3.up * turnSpeed * horizantalInput * Time.deltaTime);
+        rb.AddRelativeForce(Vector3.forward * speed * verticalInput);                   //updates vehicles position upon vertical input "W"
+        transform.Rotate(Vector3.up * turnSpeed * horizantalInput * Time.deltaTime);    //rotates vehicle upon horizantal input A/D
 
-        Scorekeeper.Instance.AddToScore(verticalInput);
+        Scorekeeper.Instance.AddToScore(verticalInput);                                 //adds to score upon vertical input "W"
     }
     // Updates movements of vehicle on keypress WASD
     private void OnMove(InputValue input)
     {
-        verticalInput = input.Get<Vector2>().y;
-        horizantalInput = input.Get<Vector2>().x;
+        verticalInput = input.Get<Vector2>().y;         //moves vehicle forward upon vertical input "W"
+        horizantalInput = input.Get<Vector2>().x;       //moves vehicle horizontal upon horizantal input A/D
     }
-    private void OnCollisionEnter(Collision collision)
+
+    //Subtracts from score when vehicle collides with Obstacles 
+    private void OnCollisionEnter(Collision collision)          
     {
-        if (collision.gameObject.CompareTag("Obstacle"))
+        if (collision.gameObject.CompareTag("Obstacle"))    //if the vehicle collides with Obstacle refrence method
         {
-            Scorekeeper.Instance.SubtractFromScore();
+            Scorekeeper.Instance.SubtractFromScore();       //subtracts from score if collision with Obstacles occurs
         }
     }
 
